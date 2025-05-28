@@ -1,0 +1,32 @@
+{
+  "books": [
+    {
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "isbn": "9780061120084",
+      "pubDate": "1960-07-11",
+      "genre": "Fiction"
+    },
+    {
+      "title": "1984",
+      "author": "George Orwell",
+      "isbn": "9780451524935",
+      "pubDate": "1949-06-08",
+      "genre": "Dystopian"
+    },
+    {
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "isbn": "9780743273565",
+      "pubDate": "1925-04-10",
+      "genre": "Classic"
+    },
+    {
+      "title": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "isbn": "9780316769488",
+      "pubDate": "1951-07-16",
+      "genre": "Fiction"
+    }
+  ]
+}

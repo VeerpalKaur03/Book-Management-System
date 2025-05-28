@@ -16,43 +16,52 @@ class Book {
 
 let books = [];
 
-
 async function loadBooks() {
-    books = await getBooksFromStorage();
-    renderBooks();
-}
+  try {
+    const resp = await fetch('db.json');
+    if (!resp.ok) throw new Error('Failed to load db.json');
 
-//fetch data from loxalStorage 
-function getBooksFromStorage() {
-  return new Promise((resolve) => {
-    const data = localStorage.getItem('books');
-    resolve(data ? JSON.parse(data) : []);
-  });
-}
+    const jsonBooks = await resp.json();
 
-// to add
-function saveBooksToStorage() {
-  return new Promise((resolve, reject) => {
+    // Load from localStorage if available
+    let storedBooks = localStorage.getItem('books');
+    if (storedBooks) {
+      books = JSON.parse(storedBooks);
+    } else {
+      books = jsonBooks;
       localStorage.setItem('books', JSON.stringify(books));
-      resolve();
-    
+    }
+
+    renderBooks();
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+// add data 
+function saveBook() {
+  return new Promise((resolve, reject) => {
+    try {
+      localStorage.setItem('books', JSON.stringify(books));
+      resolve('Saved');
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
 const form = document.getElementById('bookForm');
 const bookList = document.getElementById('bookList');
-let editIndex = null;
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-try{
+
   const title = form.title.value.trim();
   const author = form.author.value.trim();
   const isbn = form.isbn.value.trim();
   const pubDate = form.pubDate.value;
   const genre = form.genre.value.trim();
 
-  //input validation
   if (!title || !author || !isbn || !pubDate || !genre) {
     alert('All fields are required.');
     return;
@@ -63,26 +72,15 @@ try{
     return;
   }
 
-  const book = new Book(title, author, isbn, pubDate, genre);
+  const newBook = new Book(title, author, isbn, pubDate, genre);
+  books.push(newBook);
 
- // this editIndex wont be null when user click edit button
-  if (editIndex !== null) {
-    books[editIndex] = book;
-    editIndex = null;
-    form.querySelector('button[type="submit"]').textContent = 'Add Book';
-  } else {
-    // add to books array
-    books.push(book);
-  }
-
-    // save to local storage
-    await saveBooksToStorage();
-    //display on ui
+  try {
+    await saveBook();
     renderBooks();
     form.reset();
   } catch (err) {
     alert('Failed to save book.');
-    console.error(err);
   }
 });
 
@@ -114,21 +112,7 @@ function renderBooks() {
   });
 }
 
-async function deleteBook(index) {
-  books.splice(index, 1);
-  await saveBooksToStorage();
-  renderBooks();
-}
 
-function editBook(index) {
-  const book = books[index];
-  form.title.value = book.title;
-  form.author.value = book.author;
-  form.isbn.value = book.isbn;
-  form.pubDate.value = book.pubDate;
-  form.genre.value = book.genre;
-  editIndex = index;
-  form.querySelector('button[type="submit"]').textContent = 'Update Book';
-}
 
 loadBooks();
+
