@@ -9,27 +9,33 @@ class Book {
 }
 
 let books = [];
-
+//fetch data
 async function loadBooks() {
   try {
+    //from json
     const response = await fetch('db.json');
     if (!response.ok) throw new Error('Failed to fetch books');
     const data = await response.json();
+    // get from storage
     const storedBooks = localStorage.getItem('books');
 
+    // if there fetch
     if (storedBooks) {
       books = JSON.parse(storedBooks);
     } else {
       books = data;
+      // if not then put into local storage the data fetched from json
       localStorage.setItem('books', JSON.stringify(books));
     }
 
+    // print on ui
     renderBooks();
   } catch (error) {
     alert(error.message);
   }
 }
 
+// add
 function saveBooksToStorage() {
   return new Promise((resolve) => {
     localStorage.setItem('books', JSON.stringify(books));
@@ -39,6 +45,7 @@ function saveBooksToStorage() {
 
 const form = document.getElementById('bookForm');
 const bookList = document.getElementById('bookList');
+//get from html
 const searchInp = document.getElementById('searchInp');
 const searchBtn = document.getElementById('searchBtn');
 let editIndex = null;
@@ -52,7 +59,6 @@ form.addEventListener('submit', async (e) => {
   const pubDate = form.pubDate.value;
   const genre = form.genre.value.trim();
 
-  // validations
   if (!title || !author || !isbn || !pubDate || !genre) {
     alert('All fields are required.');
     return;
@@ -78,7 +84,7 @@ form.addEventListener('submit', async (e) => {
   form.reset();
 });
 
-// render books in ui
+// render books
 function renderBooks() {
   bookList.innerHTML = '';
 
@@ -99,6 +105,7 @@ function renderBooks() {
   });
 }
 
+// render only filtered books
 function renderFilterBooks(filterBooks) {
   bookList.innerHTML = '';
 
@@ -119,8 +126,8 @@ function renderFilterBooks(filterBooks) {
   });
 }
 
+//search functionality
 function search() {
-  //input taken in search 
   const query = searchInp.value.trim().toLowerCase();
 
   if (!query) {
@@ -130,18 +137,20 @@ function search() {
 
   const filteredBooks = books.filter(book =>
     book.title.toLowerCase().includes(query) ||
-    book.author.toLowerCase().includes(query) 
-    );
+    book.author.toLowerCase().includes(query)
+  );
 
   renderFilterBooks(filteredBooks);
 }
 
+//to delete
 async function deleteBook(index) {
   books.splice(index, 1);
   await saveBooksToStorage();
   renderBooks();
 }
 
+// to edit
 function editBook(index) {
   const book = books[index];
 
@@ -155,8 +164,6 @@ function editBook(index) {
   form.querySelector('button[type="submit"]').textContent = 'Update Book';
 }
 
-// event listner for search
 searchBtn.addEventListener('click', search);
-
 
 loadBooks();

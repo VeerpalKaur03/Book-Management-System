@@ -7,22 +7,20 @@
 
   <h1>Book Management System</h1>
 
-  <div>
-    <input type="text" id="searchInp" placeholder="Search">
-    <button id="searchBtn">Click</button><br><br>
-  </div>
-
   <form id="bookForm">
-    <label>Title: <input type="text" id="title" required></label><br><br>
-    <label>Author: <input type="text" id="author" required></label><br><br>
-    <label>ISBN: <input type="text" id="isbn" required></label><br><br>
-    <label>Publication Date: <input type="date" id="pubDate" required></label><br><br>
-    <label>Genre: <input type="text" id="genre" required></label><br><br>
+    <label>Title: <input type="text" name="title" required></label><br><br>
+    <label>Author: <input type="text" name="author" required></label><br><br>
+    <label>ISBN: <input type="text" name="isbn" required></label><br><br>
+    <label>Publication Date: <input type="date" name="pubDate" required></label><br><br>
+    <label>Genre: <input type="text" name="genre" required></label><br><br>
     <button type="submit">Add Book</button>
   </form>
 
-  <h2>Books List</h2>
+  <h2>Search Books</h2>
+  <input type="text" id="searchInp" placeholder="Search by Title or Author">
+  <button id="searchBtn">Search</button>
 
+  <h2>Books List</h2>
   <table border="1" width="100%">
     <thead>
       <tr>
