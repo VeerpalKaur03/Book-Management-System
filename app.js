@@ -6,34 +6,24 @@ class Book {
     this.pubDate = pubDate;
     this.genre = genre;
   }
-
-  getAge() {
-    const pubYear = new Date(this.pubDate).getFullYear();
-    const currentYear = new Date().getFullYear();
-    return currentYear - pubYear;
-  }
 }
 
 let books = [];
 
-// this function can load or fetch daata 
 async function loadBooks() {
   try {
     const response = await fetch('db.json');
-    if (!response.ok) throw new Error('failed to fetch books');
-     const data = await response.json();
+    if (!response.ok) throw new Error('Failed to fetch books');
+    const data = await response.json();
     const storedBooks = localStorage.getItem('books');
 
     if (storedBooks) {
-      // load from locxlStorage if available
       books = JSON.parse(storedBooks);
     } else {
-      // else load from db.json and save to localStorage
       books = data;
       localStorage.setItem('books', JSON.stringify(books));
     }
-    
-    //get books from json or storage on ui
+
     renderBooks();
   } catch (error) {
     alert(error.message);
@@ -49,6 +39,8 @@ function saveBooksToStorage() {
 
 const form = document.getElementById('bookForm');
 const bookList = document.getElementById('bookList');
+const searchInp = document.getElementById('searchInp');
+const searchBtn = document.getElementById('searchBtn');
 let editIndex = null;
 
 form.addEventListener('submit', async (e) => {
@@ -60,7 +52,7 @@ form.addEventListener('submit', async (e) => {
   const pubDate = form.pubDate.value;
   const genre = form.genre.value.trim();
 
-  // Simple input validation
+  // validations
   if (!title || !author || !isbn || !pubDate || !genre) {
     alert('All fields are required.');
     return;
@@ -86,34 +78,62 @@ form.addEventListener('submit', async (e) => {
   form.reset();
 });
 
+// render books in ui
 function renderBooks() {
   bookList.innerHTML = '';
 
   books.forEach((bookData, index) => {
-    const book = new Book(
-      bookData.title,
-      bookData.author,
-      bookData.isbn,
-      bookData.pubDate,
-      bookData.genre
-    );
-
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${book.title}</td>
-      <td>${book.author}</td>
-      <td>${book.isbn}</td>
-      <td>${book.pubDate}</td>
-      <td>${book.genre}</td>
-      <td>${book.getAge()} years</td>
+      <td>${bookData.title}</td>
+      <td>${bookData.author}</td>
+      <td>${bookData.isbn}</td>
+      <td>${bookData.pubDate}</td>
+      <td>${bookData.genre}</td>
       <td>
         <button onclick="editBook(${index})">Edit</button>
         <button onclick="deleteBook(${index})">Delete</button>
       </td>
     `;
-
     bookList.appendChild(row);
   });
+}
+
+function renderFilterBooks(filterBooks) {
+  bookList.innerHTML = '';
+
+  filterBooks.forEach((bookData, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${bookData.title}</td>
+      <td>${bookData.author}</td>
+      <td>${bookData.isbn}</td>
+      <td>${bookData.pubDate}</td>
+      <td>${bookData.genre}</td>
+      <td>
+        <button onclick="editBook(${index})">Edit</button>
+        <button onclick="deleteBook(${index})">Delete</button>
+      </td>
+    `;
+    bookList.appendChild(row);
+  });
+}
+
+function search() {
+  //input taken in search 
+  const query = searchInp.value.trim().toLowerCase();
+
+  if (!query) {
+    renderBooks();
+    return;
+  }
+
+  const filteredBooks = books.filter(book =>
+    book.title.toLowerCase().includes(query) ||
+    book.author.toLowerCase().includes(query) 
+    );
+
+  renderFilterBooks(filteredBooks);
 }
 
 async function deleteBook(index) {
@@ -135,5 +155,8 @@ function editBook(index) {
   form.querySelector('button[type="submit"]').textContent = 'Update Book';
 }
 
-// Load books on page load
+// event listner for search
+searchBtn.addEventListener('click', search);
+
+
 loadBooks();
