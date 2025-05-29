@@ -1,37 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Book Management System</title>
+  <link href="src/output.css" rel="stylesheet" />
 </head>
-<body>
+<body class="bg-gray-100 p-6 text-gray-800 font-sans">
 
-  <h1>Book Management System</h1>
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">Book Management System</h1>
 
-  <form id="bookForm">
-    <label>Title: <input type="text" id="title" required></label><br><br>
-    <label>Author: <input type="text" id="author" required></label><br><br>
-    <label>ISBN: <input type="text" id="isbn" required></label><br><br>
-    <label>Publication Date: <input type="date" id="pubDate" required></label><br><br>
-    <label>Genre: <input type="text" id="genre" required></label><br><br>
-    <button type="submit">Add Book</button>
-  </form>
+    <form id="bookForm" class="bg-white p-6 rounded-lg shadow-md mb-8 space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <label class="block">
+          <span class="text-sm font-semibold">Title</span>
+          <input type="text" id="title" required class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </label>
+        <label class="block">
+          <span class="text-sm font-semibold">Author</span>
+          <input type="text" id="author" required class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </label>
+        <label class="block">
+          <span class="text-sm font-semibold">ISBN</span>
+          <input type="text" id="isbn" required class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </label>
+        <label class="block">
+          <span class="text-sm font-semibold">Publication Date</span>
+          <input type="date" id="pubDate" required class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </label>
+        <label class="block md:col-span-2">
+          <span class="text-sm font-semibold">Genre</span>
+          <input type="text" id="genre" required class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </label>
+      </div>
 
-  <h2>Books List</h2>
+      <div>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition duration-200">Add Book</button>
+      </div>
+    </form>
 
-  <table border="1" width="100%">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>ISBN</th>
-        <th>Publication Date</th>
-        <th>Genre</th>
-        <th>Age</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="bookList"></tbody>
-  </table>
+    <div class="mb-2">
+        <button onclick="sortBooks('pubDate')"  class="bg-blue-400 hover:bg-blue-500 text-white px-3 py-1 rounded-md transition duration-200">Sort Books</button>
+    </div>
+
+    <h2 class="text-2xl font-semibold mb-4">Books List</h2>
+
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+      <table class="min-w-full table-auto border border-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 border">Title</th>
+            <th class="px-4 py-2 border">Author</th>
+            <th class="px-4 py-2 border">ISBN</th>
+            <th class="px-4 py-2 border">Publication Date</th>
+            <th class="px-4 py-2 border">Genre</th>
+            <th class="px-4 py-2 border">Age</th>
+            <th class="px-4 py-2 border">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="bookList" class="text-center"></tbody>
+      </table>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
