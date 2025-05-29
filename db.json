@@ -1,0 +1,39 @@
+{
+  "books": [
+    {
+      "title": "Deep Work",
+      "author": "Cal Newport",
+      "isbn": "9781455586691",
+      "pubDate": "2016-01-05",
+      "genre": "Self-Help"
+    },
+    {
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "isbn": "9780062316097",
+      "pubDate": "2011-06-04",
+      "genre": "History"
+    },
+    {
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "isbn": "9780735211292",
+      "pubDate": "2018-10-16",
+      "genre": "Self-Improvement"
+    },
+    {
+      "title": "The Alchemist",
+      "author": "Paulo Coelho",
+      "isbn": "9780061122415",
+      "pubDate": "1988-04-15",
+      "genre": "Fiction"
+    },
+    {
+      "title": "Zero to One",
+      "author": "Peter Thiel",
+      "isbn": "9780804139298",
+      "pubDate": "2014-09-16",
+      "genre": "Business"
+    }
+  ]
+}
