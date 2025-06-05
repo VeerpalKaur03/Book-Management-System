@@ -1,8 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-  loadBooks();
-  renderBooks();
-  toggleDetails();
-
-  document.getElementById('bookType').addEventListener('change', toggleDetails);
-  document.getElementById('bookForm').addEventListener('submit', handleSubmit);
-});
+import { BookManager } from "./bookManager.js";
+const bookManager = new BookManager();
+window.bookManager = bookManager;

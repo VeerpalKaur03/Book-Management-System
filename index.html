@@ -15,15 +15,6 @@
     <label>Genre: <input type="text" name="genre" required></label><br><br>
     <label>Price: <input type="text" name="price" ></label><br><br>
 
-
-  <select name="bookType" id="bookType">
-  <option value="EBook">E-Book</option>
-  <option value="PrintedBook">Printed Book</option>
-  </select>
-
-  <input type="text" name="format" id="format" placeholder="E-Book Format">
-  <input type="text" name="dimensions" id="dimensions" placeholder="Printed Book Dimensions"><br><br>
-
     <button type="submit">Add Book</button>
   </form>
 
@@ -48,10 +39,6 @@
     <tbody id="bookList"></tbody>
   </table>
 
- <script src="js/models.js"></script>
-<script src="js/storage.js"></script>
-<script src="js/dom.js"></script>
-<script src="js/formHandler.js"></script>
-<script src="js/main.js"></script>
+<script type="module" src="./js/main.js"></script>
 </body>
 </html>
