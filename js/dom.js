@@ -1,10 +1,18 @@
-// used to display books on ui
+// used to display books on UI
 function renderBooks() {
   const bookList = document.getElementById('bookList');
   bookList.innerHTML = '';
 
   books.forEach((bookData, index) => {
-    const book = new Book(bookData.title, bookData.author, bookData.isbn, bookData.pubDate, bookData.genre, bookData.price);
+    let book;
+    // what type of the book
+    if (bookData.type === 'EBook') {
+      book = new EBook(bookData.title, bookData.author, bookData.isbn, bookData.pubDate, bookData.genre, bookData.price, bookData.format);
+    } else if (bookData.type === 'PrintedBook') {
+      book = new PrintedBook(bookData.title, bookData.author, bookData.isbn, bookData.pubDate, bookData.genre, bookData.price, bookData.dimensions);
+    } else {
+      book = new Book(bookData.title, bookData.author, bookData.isbn, bookData.pubDate, bookData.genre, bookData.price);
+    }
 
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -13,8 +21,9 @@ function renderBooks() {
       <td>${book.isbn}</td>
       <td>${book.pubDate}</td>
       <td>${book.genre}</td>
-      <td>${book.price}</td>
-      <td>${book.getDiscount(20)}</td>
+      <td>Rs. ${book.price}</td>
+      <td>${book.getDiscountRate()}%</td>
+      <td>${book.getDiscountedPrice()}</td>
       <td>${book.getAge()}</td>
       <td>
         <button onclick="editBook(${index})">Edit</button>
@@ -25,13 +34,9 @@ function renderBooks() {
   });
 }
 
-// toggle on ui
+// toggle fields on UI
 function toggleDetails() {
-  const bookType = document.getElementById('bookType');
-  const formatInput = document.getElementById('format');
-  const dimensionsInput = document.getElementById('dimensions');
-
-  const type = bookType.value;
-  formatInput.style.display = type === 'EBook' ? 'inline-block' : 'none';
-  dimensionsInput.style.display = type === 'PrintedBook' ? 'inline-block' : 'none';
+  const bookType = document.getElementById('bookType').value;
+  document.getElementById('format').style.display = bookType === 'EBook' ? 'inline-block' : 'none';
+  document.getElementById('dimensions').style.display = bookType === 'PrintedBook' ? 'inline-block' : 'none';
 }

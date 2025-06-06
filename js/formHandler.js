@@ -4,7 +4,8 @@ let editIndex = null;
 function handleSubmit(e) {
   e.preventDefault();
   const form = e.target;
-
+  
+  const type = form.bookType.value;
   const title = form.title.value.trim();
   const author = form.author.value.trim();
   const isbn = form.isbn.value.trim();
@@ -12,22 +13,24 @@ function handleSubmit(e) {
   const genre = form.genre.value.trim();
   const price = parseFloat(form.price.value.trim());
  
-  // input validations
   if (!title || !author || !isbn || !pubDate || !genre || isNaN(price)) {
     alert('All fields are required and must be valid.');
     return;
   }
-
-  const type = form.bookType.value;
+  // input from user
   let book;
   if (type === 'EBook') {
     const format = form.format.value.trim();
-    book = new EBook(title, author, isbn, pubDate, genre, format);
-    book.price = price;
-  } else {
+    if (!format) return alert("Format is required for EBook");
+    book = new EBook(title, author, isbn, pubDate, genre, price, format);
+
+  } else if (type === 'PrintedBook') {
     const dimensions = form.dimensions.value.trim();
-    book = new PrintedBook(title, author, isbn, pubDate, genre, dimensions);
-    book.price = price;
+    if (!dimensions) return alert("Dimensions are required for PrintedBook");
+    book = new PrintedBook(title, author, isbn, pubDate, genre, price, dimensions);
+
+  } else {
+    book = new Book(title, author, isbn, pubDate, genre, price);
   }
 
   if (editIndex !== null) {
@@ -41,6 +44,7 @@ function handleSubmit(e) {
   saveBooks();
   renderBooks();
   form.reset();
+  toggleDetails();
 }
 
 // function to delete a book
@@ -57,12 +61,21 @@ function editBook(index) {
   const form = document.getElementById('bookForm');
   const book = books[index];
 
+  form.bookType.value = book.type;
+  toggleDetails();
+
   form.title.value = book.title;
   form.author.value = book.author;
   form.isbn.value = book.isbn;
   form.pubDate.value = book.pubDate;
   form.genre.value = book.genre;
   form.price.value = book.price;
+
+  if (book.type === 'EBook') {
+    form.format.value = book.format;
+  } else if (book.type === 'PrintedBook') {
+    form.dimensions.value = book.dimensions;
+  }
 
   editIndex = index;
   form.querySelector('button[type="submit"]').textContent = 'Update Book';
