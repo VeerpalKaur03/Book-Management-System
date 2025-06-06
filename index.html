@@ -8,16 +8,27 @@
   <h1>Book Management System</h1>
 
   <form id="bookForm">
-    <label>Title: <input type="text" id="title" required></label><br><br>
-    <label>Author: <input type="text" id="author" required></label><br><br>
-    <label>ISBN: <input type="text" id="isbn" required></label><br><br>
-    <label>Publication Date: <input type="date" id="pubDate" required></label><br><br>
-    <label>Genre: <input type="text" id="genre" required></label><br><br>
+    <label>Title: <input type="text" name="title" required></label><br><br>
+    <label>Author: <input type="text" name="author" required></label><br><br>
+    <label>ISBN: <input type="text" name="isbn" required></label><br><br>
+    <label>Publication Date: <input type="date" name="pubDate" required></label><br><br>
+    <label>Genre: <input type="text" name="genre" required></label><br><br>
+    <label>Price: <input type="text" name="price" ></label><br><br>
+
+
+  <select name="bookType" id="bookType">
+  <option value="EBook">E-Book</option>
+  <option value="PrintedBook">Printed Book</option>
+  </select>
+
+  <input type="text" name="format" id="format" placeholder="E-Book Format">
+  <input type="text" name="dimensions" id="dimensions" placeholder="Printed Book Dimensions"><br><br>
+
     <button type="submit">Add Book</button>
   </form>
 
-  <h2>Books List</h2>
 
+  <h2>Books List</h2>
   <table border="1" width="100%">
     <thead>
       <tr>
@@ -26,13 +37,21 @@
         <th>ISBN</th>
         <th>Publication Date</th>
         <th>Genre</th>
+        <th>Price</th>
+        <th>Discount Rate</th>
+        <th>Final Price</th>
         <th>Age</th>
+
         <th>Actions</th>
       </tr>
     </thead>
     <tbody id="bookList"></tbody>
   </table>
 
-  <script src="app.js"></script>
+ <script src="js/models.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/dom.js"></script>
+<script src="js/formHandler.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
