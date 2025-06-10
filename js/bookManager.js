@@ -8,7 +8,6 @@ import { Book } from "./models.js";
 import { saveToStorage, loadFromStorage } from "./storageUtils.js";
 import { LogMethod } from './decorators.js';
 export class BookManager {
-    // it automatically called wheen obj is created
     constructor() {
         this.books = [];
         this.editIndex = null;
@@ -19,44 +18,43 @@ export class BookManager {
             form.addEventListener('submit', this.handleSubmit.bind(this));
         }
     }
-    // fetch the books from local storage
     loadBooks() {
         const storedBooks = loadFromStorage('books');
-        if (storedBooks) {
-            this.books = storedBooks.map(b => new Book(b.title, b.author, b.isbn, b.pubDate, b.genre, b.price));
-        }
+        // if (storedBooks) {
+        //     this.books = storedBooks.map(b =>
+        //         new Book(b.title,  b.author , b.isbn, b.pubDate, b.genre, b.price)
+        //     );
+        // }
     }
-    // add books to the local storage
     saveBooks() {
         saveToStorage('books', this.books);
     }
-    // render books on ui
     renderBooks() {
         const bookList = document.getElementById("bookList");
+        if (!bookList)
+            return;
         bookList.innerHTML = '';
         this.books.forEach((book, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
-        <td>${book.title}</td>
-        <td>${book.author.name}</td>  
-        <td>${book.isbn}</td>
-        <td>${book.pubDate}</td>
-        <td>${book.genre}</td>
-        <td>${book.price}</td>
-        <td>${book.getDiscount(20)}</td>
-        <td>${book.getAge()}</td>
-        <td>
-          <button onclick="bookManager.editBook(${index})">Edit</button>
-          <button onclick="bookManager.deleteBook(${index})">Delete</button>
-        </td>`;
+                <td>${book.title}</td>
+                <td>${book.author.name}</td>  
+                <td>${book.isbn}</td>
+                <td>${book.pubDate}</td>
+                <td>${book.genre}</td>
+                <td>${book.price}</td>
+                <td>${book.getDiscount(20)}</td>
+                <td>${book.getAge()}</td>
+                <td>
+                  <button onclick="bookManager.editBook(${index})">Edit</button>
+                  <button onclick="bookManager.deleteBook(${index})">Delete</button>
+                </td>`;
             bookList.appendChild(row);
         });
     }
-    // event listener
     handleSubmit(e) {
         e.preventDefault();
-        const form = e.target; // type assertions
-        // take the users input
+        const form = e.target;
         const title = form.elements.namedItem('title').value.trim();
         const authorName = form.elements.namedItem('author').value.trim();
         const isbn = form.elements.namedItem('isbn').value.trim();
@@ -64,13 +62,11 @@ export class BookManager {
         const genre = form.elements.namedItem('genre').value.trim();
         const priceStr = form.elements.namedItem('price').value.trim();
         const price = parseFloat(priceStr);
-        // input validations
         if (!title || !isbn || !pubDate || !genre || isNaN(price)) {
             alert('All fields are required and must be valid.');
             return;
         }
         const author = { name: authorName };
-        // create book object
         const book = new Book(title, author, isbn, pubDate, genre, price);
         if (this.editIndex != null) {
             this.books[this.editIndex] = book;
@@ -84,7 +80,6 @@ export class BookManager {
         this.renderBooks();
         form.reset();
     }
-    // used to delete the book
     deleteBook(index) {
         if (confirm("Are you sure you want to remove this book?")) {
             this.books.splice(index, 1);
@@ -92,11 +87,11 @@ export class BookManager {
             this.renderBooks();
         }
     }
-    // use to edit the book
     editBook(index) {
         const book = this.books[index];
         const form = document.getElementById('bookForm');
-        // refill inputs by the values that we are going to edit
+        if (!form)
+            return;
         form.elements.namedItem('title').value = book.title;
         form.elements.namedItem('author').value = book.author.name;
         form.elements.namedItem('isbn').value = book.isbn;

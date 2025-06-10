@@ -1,16 +1,8 @@
-// save and load using generics
-// saves data to localStorage
-export function saveToStorage<T>(key:string, data:T){
-    localStorage.setItem(key, JSON.stringify(data))
+export function saveToStorage<T>(key: string, data: T): void {
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
-
-//load data from localStorage
-export function loadFromStorage<T>(key:string): T | null{
-   const item = localStorage.getItem(key);
-   if(item){
-      return JSON.parse(item) as T
-   }else{
-    return null
-   }
+export function loadFromStorage<T>(key: string): T | null {
+  const json = localStorage.getItem(key);
+    return JSON.parse(json) as T;
 }
