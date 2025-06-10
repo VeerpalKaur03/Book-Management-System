@@ -18,11 +18,11 @@ export class BookManager {
 
     loadBooks(): void {
         const storedBooks = loadFromStorage<any[]>('books');
-        // if (storedBooks) {
-        //     this.books = storedBooks.map(b =>
-        //         new Book(b.title,  b.author , b.isbn, b.pubDate, b.genre, b.price)
-        //     );
-        // }
+        if (storedBooks) {
+            this.books = storedBooks.map(b =>
+                new Book(b.title,  b.author , b.isbn, b.pubDate, b.genre, b.price)
+            );
+        }
     }
 
     saveBooks(): void {
