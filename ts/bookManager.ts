@@ -15,7 +15,8 @@ export class BookManager {
             form.addEventListener('submit', this.handleSubmit.bind(this));
         }
     }
-
+    
+    // get books 
     loadBooks(): void {
         const storedBooks = loadFromStorage<any[]>('books');
         if (storedBooks) {
@@ -24,11 +25,13 @@ export class BookManager {
             );
         }
     }
-
+    // save
     saveBooks(): void {
         saveToStorage('books', this.books);
     }
 
+
+    // get to ui
     renderBooks(): void {
         const bookList = document.getElementById("bookList") as HTMLElement | null;
         if (!bookList) return;
@@ -54,6 +57,7 @@ export class BookManager {
         });
     }
 
+    // submit event
     handleSubmit(e: Event): void {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
@@ -66,6 +70,7 @@ export class BookManager {
         const priceStr = (form.elements.namedItem('price') as HTMLInputElement).value.trim();
         const price = parseFloat(priceStr);
 
+        // validations
         if (!title || !isbn || !pubDate || !genre || isNaN(price)) {
             alert('All fields are required and must be valid.');
             return;

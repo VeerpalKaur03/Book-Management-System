@@ -10,14 +10,16 @@ export function LogMethod(
 
     //replaces the original method with new version
     descriptor.value = function (...args : any[]){
-    console.log(`Method ${key} caled with the args: `,args)
+    console.log(`Method ${key} called with the args: `,args)
 
     // return the original method with same this n arguments
     const result = originalMethod.apply(this, args)
+
+    //make sure that original method should get returned
     return result
     }
 
 
-    
+    // return modified 
     return descriptor;
 }
