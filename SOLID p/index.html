@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Management System</title>
+</head>
+<body>
+
+  <h1>Book Management System</h1>
+
+  <form id="bookForm">
+    <label>Title: <input type="text" name="title" required></label><br><br>
+    <label>Author: <input type="text" name="author" required></label><br><br>
+    <label>ISBN: <input type="text" name="isbn" required></label><br><br>
+    <label>Publication Date: <input type="date" name="pubDate" required></label><br><br>
+    <label>Genre: <input type="text" name="genre" required></label><br><br>
+    <label>Price: <input type="text" name="price" ></label><br><br>
+
+    <button type="submit">Add Book</button>
+  </form>
+
+
+  <h2>Books List</h2>
+  <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Publication Date</th>
+        <th>Genre</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Age</th>
+
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="bookList"></tbody>
+  </table>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
