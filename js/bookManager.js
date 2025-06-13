@@ -18,15 +18,18 @@ export class BookManager {
             form.addEventListener('submit', this.handleSubmit.bind(this));
         }
     }
+    // get books 
     loadBooks() {
         const storedBooks = loadFromStorage('books');
         if (storedBooks) {
             this.books = storedBooks.map(b => new Book(b.title, b.author, b.isbn, b.pubDate, b.genre, b.price));
         }
     }
+    // save
     saveBooks() {
         saveToStorage('books', this.books);
     }
+    // get to ui
     renderBooks() {
         const bookList = document.getElementById("bookList");
         if (!bookList)
@@ -50,6 +53,7 @@ export class BookManager {
             bookList.appendChild(row);
         });
     }
+    // submit event
     handleSubmit(e) {
         e.preventDefault();
         const form = e.target;
@@ -60,6 +64,7 @@ export class BookManager {
         const genre = form.elements.namedItem('genre').value.trim();
         const priceStr = form.elements.namedItem('price').value.trim();
         const price = parseFloat(priceStr);
+        // validations
         if (!title || !isbn || !pubDate || !genre || isNaN(price)) {
             alert('All fields are required and must be valid.');
             return;
@@ -100,6 +105,9 @@ export class BookManager {
         form.querySelector('button[type="submit"]').textContent = 'Update Book';
     }
 }
+__decorate([
+    LogMethod
+], BookManager.prototype, "saveBooks", null);
 __decorate([
     LogMethod
 ], BookManager.prototype, "deleteBook", null);

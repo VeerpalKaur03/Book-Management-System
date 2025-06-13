@@ -1,15 +1,25 @@
-export function LogMethod(target, //the object that owns the method
-key, // the method
-descriptor // inside that method
+export function LogMethod(target, // class in which method lives
+key, // method itself being decorated
+descriptor // lets us change the behavious of our method
 ) {
-    // putting original value in this
     const originalMethod = descriptor.value;
-    //replaces the original method with new version
     descriptor.value = function (...args) {
-        console.log(`Method ${key} caled with the args: `, args);
-        // return the original method with same this n arguments
-        const result = originalMethod.apply(this, args);
-        return result;
+        let title = "Unknown";
+        // for edit book adnd delete book
+        if ((key === "editBook" || key === "deleteBook") && args.length > 0) { //the method get at least one argument
+            const index = args[0];
+            if (this.books && this.books[index]) { //makes sure this.books exists and the book at that index existss
+                title = this.books[index].title;
+            }
+        }
+        // f method is saveBooks, get last book in list
+        if (key === "saveBooks" && this.books && this.books.length > 0) {
+            title = this.books[this.books.length - 1].title; //grab the last book
+        }
+        // Print message
+        console.log(`${title} book has been ${key} with the args:`, args);
+        // Call the original method
+        return originalMethod.apply(this, args);
     };
     return descriptor;
 }

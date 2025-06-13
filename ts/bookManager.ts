@@ -26,6 +26,7 @@ export class BookManager {
         }
     }
     // save
+    @LogMethod
     saveBooks(): void {
         saveToStorage('books', this.books);
     }
