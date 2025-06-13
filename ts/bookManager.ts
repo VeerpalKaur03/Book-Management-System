@@ -1,7 +1,7 @@
 import { Book, IBook, Describe } from "./models.js";
 
 
-//High-level modules (RenderBooks, BookManager, HandleSubmit) depend on interfaces (IBook & Describe), not concrete classes (Book, EBook)... DIP
+//high-level modules (RenderBooks, BookManager, HandleSubmit) depend on interfaces (IBook & Describe), not concrete classes (Book, EBook)... DIP
 export class BookManager {
     books: (IBook & Describe)[] = [];
     editIndex: number | null = null;
@@ -108,7 +108,7 @@ export class RenderBooks {
 // submit logic
 export class HandleSubmit {
     books: (IBook & Describe)[] = [];
-    manager: BookManager | null = null;  // Reference to BookManager
+    manager: BookManager | null = null;  // reference to BookManager
     renderer : RenderBooks | null = null;  // reference to RenderBooks
 
     constructor() {
